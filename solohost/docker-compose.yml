@@ -1,10 +1,10 @@
 services:
   app:
-    image: ghcr.io/cannoi/family-tasks:16e662b747eabbfdb77ac54b1b9966acfe73e8df
+    image: ghcr.io/OWNER/family-tasks:latest
     restart: unless-stopped
     labels:
       pi.ui.primary: "true"
     ports:
-      - "127.0.0.1:18152:8080"
+      - "127.0.0.1:18080:8080"
     environment:
       - PORT=8080

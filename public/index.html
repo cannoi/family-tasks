@@ -1,56 +1,186 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Family Tasks</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Family Tasks - Quản lý công việc gia đình</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 <style>.paf-made-by{position:fixed;right:8px;bottom:8px;width:min(72px,12vw);max-width:12vw;height:auto;object-fit:contain;opacity:.5;background:transparent;padding:0;border:0;box-shadow:none;filter:none;pointer-events:none;z-index:30}</style></head>
-<body>
-  <div class="container">
-    <h1>Family Tasks</h1>
-    <div id="app">
-      <div id="login-form">
-        <h2>Login</h2>
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <button onclick="login()">Login</button>
-        <p>Don't have an account? <a href="#" onclick="showRegisterForm()">Register</a></p>
+<body class="bg-gray-100 min-h-screen flex flex-col justify-between">
+  <div class="container mx-auto px-4 py-8 max-w-4xl flex-grow">
+    <header class="bg-white shadow rounded-lg p-6 mb-6 flex justify-between items-center">
+      <div>
+        <h1 class="text-2xl font-bold text-indigo-600">Family Tasks</h1>
+        <p class="text-gray-500 text-sm">Phân chia và theo dõi công việc gia đình hiệu quả</p>
       </div>
-      <div id="register-form" style="display: none;">
-        <h2>Register</h2>
-        <input type="text" id="reg-username" placeholder="Username">
-        <input type="password" id="reg-password" placeholder="Password">
-        <input type="email" id="reg-email" placeholder="Email">
-        <button onclick="register()">Register</button>
-        <p>Already have an account? <a href="#" onclick="showLoginForm()">Login</a></p>
+      <div id="family-selector" class="flex items-center space-x-2">
+        <label class="text-sm font-medium text-gray-700">Gia đình:</label>
+        <select id="select-family" class="border border-gray-300 rounded px-2 py-1 text-sm">
+        </select>
       </div>
-      <div id="family-form" style="display: none;">
-        <h2>Create or Join Family</h2>
-        <input type="text" id="family-name" placeholder="Family Name">
-        <button onclick="createFamily()">Create Family</button>
-        <input type="text" id="family-id" placeholder="Family ID">
-        <button onclick="joinFamily()">Join Family</button>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Task Form -->
+      <div class="bg-white p-6 rounded-lg shadow md:col-span-1">
+        <h2 class="text-lg font-semibold mb-4 text-gray-800">Tạo nhiệm vụ mới</h2>
+        <form id="task-form" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 uppercase">Tiêu đề</label>
+            <input type="text" id="title" required class="mt-1 w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 uppercase">Mô tả</label>
+            <textarea id="description" rows="2" class="mt-1 w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 uppercase">Hạn chót</label>
+            <input type="date" id="due_date" class="mt-1 w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 uppercase">Giao cho</label>
+            <select id="assigned_to" class="mt-1 w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </select>
+          </div>
+          <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 text-sm font-semibold transition">Thêm nhiệm vụ</button>
+        </form>
       </div>
-      <div id="task-form" style="display: none;">
-        <h2>Create Task</h2>
-        <input type="text" id="task-title" placeholder="Task Title">
-        <textarea id="task-description" placeholder="Task Description"></textarea>
-        <input type="date" id="task-due-date">
-        <input type="text" id="task-assigned-to" placeholder="Assigned To">
-        <button onclick="createTask()">Create Task</button>
-      </div>
-      <div id="task-list" style="display: none;">
-        <h2>Tasks</h2>
-        <ul id="tasks"></ul>
-      </div>
-      <div id="notification-list" style="display: none;">
-        <h2>Notifications</h2>
-        <ul id="notifications"></ul>
+
+      <!-- Task List -->
+      <div class="bg-white p-6 rounded-lg shadow md:col-span-2">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-lg font-semibold text-gray-800">Danh sách nhiệm vụ</h2>
+          <span id="task-count" class="bg-indigo-100 text-indigo-800 text-xs px-2.5 py-0.5 rounded-full font-semibold">0 nhiệm vụ</span>
+        </div>
+        <div id="task-list" class="space-y-3 overflow-y-auto max-h-96">
+          <!-- Tasks populated here -->
+        </div>
       </div>
     </div>
   </div>
-  <script src="script.js"></script>
-  
+
+  <footer class="py-4 text-center text-xs text-gray-400 border-t border-gray-200 mt-8">
+    
+  </footer>
+
+  <script>
+    let currentFamilyId = 1;
+
+    async function loadFamilies() {
+      const res = await fetch('/api/families');
+      const families = await res.json();
+      const select = document.getElementById('select-family');
+      select.innerHTML = '';
+      families.forEach(f => {
+        const opt = document.createElement('option');
+        opt.value = f.id;
+        opt.textContent = f.name;
+        select.appendChild(opt);
+      });
+      if(families.length > 0) {
+        currentFamilyId = families[0].id;
+        loadUsers(currentFamilyId);
+        loadTasks(currentFamilyId);
+      }
+    }
+
+    async function loadUsers(familyId) {
+      const res = await fetch(`/api/users?family_id=${familyId}`);
+      const users = await res.json();
+      const select = document.getElementById('assigned_to');
+      select.innerHTML = '';
+      users.forEach(u => {
+        const opt = document.createElement('option');
+        opt.value = u.username;
+        opt.textContent = u.username;
+        select.appendChild(opt);
+      });
+    }
+
+    async function loadTasks(familyId) {
+      const res = await fetch(`/api/tasks?family_id=${familyId}`);
+      const tasks = await res.json();
+      const list = document.getElementById('task-list');
+      document.getElementById('task-count').textContent = tasks.length + ' nhiệm vụ';
+      list.innerHTML = '';
+      
+      if(tasks.length === 0) {
+        list.innerHTML = '<p class="text-gray-500 text-sm text-center py-4">Chưa có nhiệm vụ nào trong gia đình này.</p>';
+        return;
+      }
+
+      tasks.forEach(t => {
+        const div = document.createElement('div');
+        div.className = `p-4 border rounded-lg flex justify-between items-center ${t.status === 'completed' ? 'bg-green-50 border-green-200' : 'bg-white border-gray-200'}`;
+        div.innerHTML = `
+          <div>
+            <h3 class="font-semibold text-sm ${t.status === 'completed' ? 'line-through text-gray-500' : 'text-gray-800'}">${t.title}</h3>
+            <p class="text-xs text-gray-600 mt-1">${t.description || ''}</p>
+            <div class="flex items-center space-x-4 mt-2 text-xs text-gray-500">
+              <span>Hạn: ${t.due_date || 'Không có'}</span>
+              <span>Giao: <b>${t.assigned_to || 'Chưa gán'}</b></span>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="toggleStatus(${t.id}, '${t.status}')" class="px-3 py-1 text-xs rounded font-medium ${t.status === 'completed' ? 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200' : 'bg-green-100 text-green-800 hover:bg-green-200'}">
+              ${t.status === 'completed' ? 'Chưa xong' : 'Hoàn thành'}
+            </button>
+            <button onclick="deleteTask(${t.id})" class="text-red-500 hover:text-red-700 text-xs px-2 py-1">Xóa</button>
+          </div>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    document.getElementById('select-family').addEventListener('change', (e) => {
+      currentFamilyId = e.target.value;
+      loadUsers(currentFamilyId);
+      loadTasks(currentFamilyId);
+    });
+
+    document.getElementById('task-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      const description = document.getElementById('description').value;
+      const due_date = document.getElementById('due_date').value;
+      const assigned_to = document.getElementById('assigned_to').value;
+
+      const res = await fetch('/api/tasks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, description, due_date, family_id: currentFamilyId, assigned_to })
+      });
+
+      if(res.ok) {
+        document.getElementById('title').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('due_date').value = '';
+        loadTasks(currentFamilyId);
+      } else {
+        alert('Lỗi khi tạo nhiệm vụ');
+      }
+    });
+
+    async function toggleStatus(id, currentStatus) {
+      const newStatus = currentStatus === 'completed' ? 'pending' : 'completed';
+      await fetch(`/api/tasks/${id}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus })
+      });
+      loadTasks(currentFamilyId);
+    }
+
+    async function deleteTask(id) {
+      if(confirm('Bạn có chắc chắn muốn xóa nhiệm vụ này?')) {
+        await fetch(`/api/tasks/${id}`, {
+          method: 'DELETE'
+        });
+        loadTasks(currentFamilyId);
+      }
+    }
+
+    loadFamilies();
+  </script>
 <img class="paf-made-by" src="/made-by.png" alt="Made with App Builder — Pi SoloHost"></body>
 </html>

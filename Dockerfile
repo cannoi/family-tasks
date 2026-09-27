@@ -1,15 +1,7 @@
-FROM node:24.21.0
-
-WORKDIR /usr/src/app
-
+FROM node:18-alpine
+WORKDIR /app
 COPY package*.json ./
-
-RUN npm ci
-RUN apt-get update && apt-get install -y build-essential
-RUN npm rebuild sqlite3
-
+RUN npm ci --production
 COPY . .
-
 EXPOSE 8080
-
-CMD [ "npm", "start" ]
+CMD ["npm", "start"]
