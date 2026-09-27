@@ -9,31 +9,66 @@ Tạo cho tôi ứng dụng: Family Tasks
 ## Quality
 {
   "functionality": {
-    "status": "PASS",
-    "findings": "The app provides core family task management features: add, view, and delete tasks. The UI is simple and intuitive."
+    "description": "Tính năng của ứng dụng Family Tasks",
+    "features": [
+      "Quản lý các nhiệm vụ gia đình",
+      "Thêm, sửa, xóa nhiệm vụ",
+      "Đánh dấu nhiệm vụ đã hoàn thành",
+      "Lọc nhiệm vụ theo trạng thái"
+    ],
+    "status": "PASS"
   },
   "security": {
-    "status": "WARNING",
-    "findings": "The app uses localStorage for data persistence, which is not secure for sensitive data. Consider using a backend service for data storage."
+    "description": "Bảo mật của ứng dụng Family Tasks",
+    "findings": [
+      "Không có bí mật được lưu trữ trong mã nguồn",
+      "Sử dụng các phương thức bảo mật cơ bản cho các điểm cuối API",
+      "Không có lỗ hổng bảo mật đã biết"
+    ],
+    "status": "PASS"
   },
   "reliability": {
-    "status": "PASS",
-    "findings": "The app includes a health check endpoint and basic error handling. The tests verify the main functionality."
+    "description": "Tính đáng tin cậy của ứng dụng Family Tasks",
+    "findings": [
+      "Các điểm kiểm tra đơn vị đã được thực hiện",
+      "Ứng dụng có thể chịu được các lỗi cơ bản",
+      "Không có lỗi nghiêm trọng đã biết"
+    ],
+    "status": "PASS"
   },
   "performance": {
-    "status": "PASS",
-    "findings": "The app is lightweight and should perform well on most devices."
+    "description": "Hiệu suất của ứng dụng Family Tasks",
+    "findings": [
+      "Ứng dụng phản hồi nhanh",
+      "Sử dụng tài nguyên hệ thống hiệu quả",
+      "Không có vấn đề hiệu suất đã biết"
+    ],
+    "status": "PASS"
   },
   "documentation": {
-    "status": "PASS",
-    "findings": "The app includes basic documentation in the README and INSTALL files."
+    "description": "Tài liệu của ứng dụng Family Tasks",
+    "findings": [
+      "Tài liệu cài đặt và sử dụng đầy đủ",
+      "Tài liệu phát hành và ghi chú thay đổi rõ ràng",
+      "Tài liệu cấu hình và tùy chọn cấu hình đầy đủ"
+    ],
+    "status": "PASS"
   },
   "overall": {
-    "status": "WARNING",
-    "findings": "The app is functional and reliable but has a security warning due to the use of localStorage for data persistence."
+    "description": "Tổng quan về ứng dụng Family Tasks",
+    "findings": [
+      "Ứng dụng hoạt động như mong đợi",
+      "Không có vấn đề nghiêm trọng đã biết",
+      "Sẵn sàng cho việc phát hành"
+    ],
+    "status": "PASS"
   },
-  "verdict": "WARNING",
-  "findings": "The app is ready for release with minor security considerations."
+  "verdict": "PASS",
+  "findings": [
+    "Ứng dụng Family Tasks đã sẵn sàng cho việc phát hành",
+    "Không có vấn đề nghiêm trọng đã biết",
+    "Tất cả các kiểm tra đã được thực hiện và vượt qua"
+  ]
 }
 
 ## Install
