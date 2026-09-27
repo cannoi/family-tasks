@@ -1,0 +1,7 @@
+title: "Family Tasks"
+eyebrow: SoloHost App
+description: "Tạo cho tôi ứng dụng: Family Tasks ứng dụng phân chia công việc gia đình, giao nhiệm vụ, đặt hạn và theo dõi hoàn thành."
+footer_hint: Ready to run on Pi Desktop SoloHost.
+output_file: .env
+after_save: Saved. Start the app from SoloHost.
+fields: []

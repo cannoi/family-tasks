@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Family Tasks</title>
+  <link rel="stylesheet" href="styles.css">
+<style>.paf-made-by{position:fixed;right:8px;bottom:8px;width:min(72px,12vw);max-width:12vw;height:auto;object-fit:contain;opacity:.5;background:transparent;padding:0;border:0;box-shadow:none;filter:none;pointer-events:none;z-index:30}</style></head>
+<body>
+  <div class="container">
+    <h1>Family Tasks</h1>
+    <div id="app">
+      <div id="login-form">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <p>Don't have an account? <a href="#" onclick="showRegisterForm()">Register</a></p>
+      </div>
+      <div id="register-form" style="display: none;">
+        <h2>Register</h2>
+        <input type="text" id="reg-username" placeholder="Username">
+        <input type="password" id="reg-password" placeholder="Password">
+        <input type="email" id="reg-email" placeholder="Email">
+        <button onclick="register()">Register</button>
+        <p>Already have an account? <a href="#" onclick="showLoginForm()">Login</a></p>
+      </div>
+      <div id="family-form" style="display: none;">
+        <h2>Create or Join Family</h2>
+        <input type="text" id="family-name" placeholder="Family Name">
+        <button onclick="createFamily()">Create Family</button>
+        <input type="text" id="family-id" placeholder="Family ID">
+        <button onclick="joinFamily()">Join Family</button>
+      </div>
+      <div id="task-form" style="display: none;">
+        <h2>Create Task</h2>
+        <input type="text" id="task-title" placeholder="Task Title">
+        <textarea id="task-description" placeholder="Task Description"></textarea>
+        <input type="date" id="task-due-date">
+        <input type="text" id="task-assigned-to" placeholder="Assigned To">
+        <button onclick="createTask()">Create Task</button>
+      </div>
+      <div id="task-list" style="display: none;">
+        <h2>Tasks</h2>
+        <ul id="tasks"></ul>
+      </div>
+      <div id="notification-list" style="display: none;">
+        <h2>Notifications</h2>
+        <ul id="notifications"></ul>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+  
+<img class="paf-made-by" src="/made-by.png" alt="Made with App Builder — Pi SoloHost"></body>
+</html>
